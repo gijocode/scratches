@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON to HTML Table</title>
+</head>
+<body>
+
+<script>
+  // URL of the JSON file
+  var jsonUrl = 'https://example.com/path/to/your/json/file.json';
+
+  // Function to fetch JSON data
+  function fetchJson(url) {
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .catch(error => console.error('Error fetching JSON:', error));
+  }
+
+  // Function to create an HTML table
+  function createTable(data) {
+    var table = '<table border="1"><tr><th>Name</th><th>Status</th><th>Duration</th></tr>';
+
+    // Loop through each child and add a row to the table
+    data.children.forEach(function(child) {
+      table += '<tr>';
+      table += '<td>' + child.name + '</td>';
+      table += '<td>' + child.status + '</td>';
+      table += '<td>' + child.time.duration + '</td>';
+      table += '</tr>';
+    });
+
+    table += '</table>';
+    return table;
+  }
+
+  // Fetch JSON data and create the table
+  fetchJson(jsonUrl)
+    .then(jsonData => {
+      // Get the table HTML
+      var tableHtml = createTable(jsonData);
+
+      // Display the table in the body of the HTML document
+      document.body.innerHTML = tableHtml;
+    });
+</script>
+
+</body>
+</html>
+
